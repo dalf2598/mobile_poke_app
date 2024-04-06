@@ -54,6 +54,8 @@ class _PokemonListState extends State<PokemonList> {
             ),
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "/details", arguments: pokemon);
+        },
       );
 }

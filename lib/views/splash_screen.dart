@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_poke_app/views/pokemon_list.dart';
 import 'package:mobile_poke_app/provider/pokemon_provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -32,9 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (pokemonProvider.pokemonList.length ==
         pokemonProvider.initPokemonListNumber) {
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const PokemonList()),
-        );
+        Navigator.of(context).pushReplacementNamed('/pokemonList');
       });
     }
 
