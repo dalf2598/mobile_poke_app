@@ -25,3 +25,5 @@ flutter:
 
   assets:
     - assets/
+    - assets/pokemon_types/
+    - assets/stats_types/

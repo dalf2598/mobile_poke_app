@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_poke_app/provider/pokemon_provider.dart';
 import 'package:mobile_poke_app/views/pokemon_list.dart';
 import 'package:mobile_poke_app/views/splash_screen.dart';
+import 'package:mobile_poke_app/views/podemon_details.dart';
 
 void main() {
   runApp(
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/splashScreen",
       routes: {
         "/splashScreen": (context) => const SplashScreen(),
-        "/home": (context) => const PokemonList(),
+        "/pokemonList": (context) => const PokemonList(),
+        "/details": (context) => const PokemonDetails(),
       },
     );
   }
