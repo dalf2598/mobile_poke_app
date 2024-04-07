@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_poke_app/utils/permission_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_poke_app/models/pokemon.dart';
 import 'package:mobile_poke_app/provider/pokemon_provider.dart';
@@ -15,6 +16,8 @@ class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
     final pokemonProvider = Provider.of<PokemonProvider>(context);
+
+    requestPermissions(context);
 
     return Scaffold(
         appBar: AppBar(

@@ -9,6 +9,7 @@ class PokemonProvider extends ChangeNotifier {
 
   final List<Pokemon> _pokemonList = [];
   final int _initPokemonListNumber = 10;
+  bool hasCameraPermission = false;
 
   void _initPokemonList() async {
     for (int i = 1; i <= _initPokemonListNumber; i++) {
