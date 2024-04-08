@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:mobile_poke_app/models/pokemon.dart';
+import 'package:mobile_poke_app/models/pokemon_model.dart';
 
 class PokemonServices {
   static Future<Pokemon> getPokemon(id) async {

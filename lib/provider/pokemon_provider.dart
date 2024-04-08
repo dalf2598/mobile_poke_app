@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_poke_app/models/pokemon.dart';
-import 'package:mobile_poke_app/services/pokemon_api.dart';
+import 'package:mobile_poke_app/models/pokemon_model.dart';
+import 'package:mobile_poke_app/services/pokemon_service.dart';
 
 class PokemonProvider extends ChangeNotifier {
   PokemonProvider() {

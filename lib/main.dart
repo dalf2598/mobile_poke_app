@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_poke_app/provider/pokemon_capture_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_poke_app/provider/pokemon_provider.dart';
+import 'package:mobile_poke_app/views/pokemons_captured.dart';
 import 'package:mobile_poke_app/views/pokemon_list.dart';
 import 'package:mobile_poke_app/views/splash_screen.dart';
-import 'package:mobile_poke_app/views/podemon_details.dart';
+import 'package:mobile_poke_app/views/pokemon_details.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider<PokemonProvider>(
-      create: (context) => PokemonProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PokemonProvider>(
+          create: (context) => PokemonProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider<PokemonCaptureProvider>(
+            create: (context) => PokemonCaptureProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -31,6 +40,7 @@ class MyApp extends StatelessWidget {
         "/splashScreen": (context) => const SplashScreen(),
         "/pokemonList": (context) => const PokemonList(),
         "/details": (context) => const PokemonDetails(),
+        "/my-pokemons": (context) => const MyPokemons(),
       },
     );
   }

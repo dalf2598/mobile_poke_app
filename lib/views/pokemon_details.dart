@@ -1,11 +1,13 @@
 import 'dart:io';
+import 'package:mobile_poke_app/provider/pokemon_capture_provider.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_poke_app/utils/utils.dart';
-import 'package:mobile_poke_app/models/pokemon.dart';
+import 'package:mobile_poke_app/models/pokemon_model.dart';
 import 'package:mobile_poke_app/utils/file_system_utils.dart';
+import 'package:mobile_poke_app/widgets/pokemon_slider.dart';
 import 'package:mobile_poke_app/provider/pokemon_provider.dart';
 
 class PokemonDetails extends StatelessWidget {
@@ -14,18 +16,24 @@ class PokemonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pokemonProvider = Provider.of<PokemonProvider>(context);
-    final pokemon = ModalRoute.of(context)!.settings.arguments as Pokemon;
+
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    final pokemon = arguments['pokemon'];
+    final captures = arguments['captures'];
 
     return Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text('Pokemon Details')),
+          title: const Text('Pokemon Details'),
         ),
         body: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.only(bottom: 20.0),
             child: Column(
               children: [
-                pokemonImage(pokemon, pokemonProvider.hasCameraPermission),
+                pokemonImage(context, pokemon, captures,
+                    pokemonProvider.hasCameraPermission),
                 Text(
                   capitalizeFirstLetter(pokemon.name),
                   style: const TextStyle(
@@ -75,19 +83,24 @@ class PokemonDetails extends StatelessWidget {
   }
 }
 
-Widget pokemonImage(Pokemon pokemon, bool hasCameraPermission) {
+Widget pokemonImage(BuildContext context, Pokemon pokemon,
+    List<String> captures, bool hasCameraPermission) {
+  final capturesProvider = Provider.of<PokemonCaptureProvider>(context);
+
   return Container(
       color: getColorForPokemonType(pokemon.types.first.type.name),
       padding: const EdgeInsets.all(20),
       alignment: Alignment.center,
       child: Stack(children: [
-        Image(
-          image: NetworkImage(pokemon.sprites.frontDefault),
-          fit: BoxFit.fill,
-          height: 160,
-          width: 180,
-        ),
-        (hasCameraPermission)
+        (captures.isEmpty)
+            ? Image(
+                image: NetworkImage(pokemon.sprites.frontDefault),
+                fit: BoxFit.fill,
+                height: 160,
+                width: 180,
+              )
+            : PokemonSlider(imagesPath: captures),
+        (hasCameraPermission && captures.isEmpty)
             ? Positioned(
                 top: 0,
                 right: 0,
@@ -120,6 +133,8 @@ Widget pokemonImage(Pokemon pokemon, bool hasCameraPermission) {
                     debugPrint("Saved Image Path: $destinationFile");
                     debugPrint(
                         "Saved Image Size: ${await File(destinationFile).length()} bytes");
+
+                    await capturesProvider.loadPokemonsCaptures();
                   },
                 ))
             : const SizedBox(),
